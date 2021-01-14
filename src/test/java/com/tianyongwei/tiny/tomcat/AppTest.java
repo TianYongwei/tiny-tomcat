@@ -1,12 +1,23 @@
 package com.tianyongwei.tiny.tomcat;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
 
-public class AppTest
-{
+import com.tianyongwei.tiny.tomcat.ch01.App;
+import org.junit.jupiter.api.*;
+import org.springframework.test.web.reactive.server.WebTestClient;
+
+public class AppTest {
+
+    WebTestClient client;
+
+    @BeforeEach
+    void init() {
+        client = WebTestClient.bindToServer().baseUrl("https://www.baidu.com").build();
+    }
+
     @Test
-    public void test1() {
-        Assert.assertEquals(1, 1);
+    @DisplayName("baidu")
+    public void testBaidu() {
+        client.get().uri("/").exchange().expectStatus().isOk();
     }
 }
